@@ -4,6 +4,7 @@ venv/
 /venv
 ./venv/
 .venv/
+venv
 uploads/
 *.pyc
 __pycache__/
