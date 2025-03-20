@@ -4,12 +4,12 @@ from django.http import HttpResponse
 from blog.models import User, Category, Flowers, Order, OrderTime
 
 def index(request):
-    users = User.objects.all()
     categories = Category.objects.all()
+    flowers = Flowers.objects.all()
 
     context = {
+        'flowers': flowers,
         'categories': categories,
-        'users': users,
     }
 
     return render(
