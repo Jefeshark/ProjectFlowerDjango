@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.conf import settings
 
 from blog.models import User, Category, Flowers, Order, OrderTime
 
@@ -10,6 +11,7 @@ def index(request):
     context = {
         'flowers': flowers,
         'categories': categories,
+        'SETTINGS': settings,
     }
 
     return render(
@@ -17,3 +19,4 @@ def index(request):
         'blog/index.html',
         context,
     )
+
