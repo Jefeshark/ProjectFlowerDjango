@@ -22,3 +22,4 @@ class OrderAdmin(admin.ModelAdmin):
 @admin.register(OrderTime)
 class OrderTimeAdmin(admin.ModelAdmin):
     ...
+

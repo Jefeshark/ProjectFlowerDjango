@@ -70,29 +70,13 @@ class Flowers(models.Model):
         on_delete=models.CASCADE,
         verbose_name='категория',
     )
-    image = models.ImageField(
-        upload_to='uploads/',
-        verbose_name='Изображение',
-        null=True,
-    )
-    image_two = models.ImageField(
-        upload_to='uploads/',
-        verbose_name='Изображение2',
-        null=True,
-    )
-    image_three = models.ImageField(
-        upload_to='uploads/',
-        verbose_name='Изображение3',
-        null=True,
-    )
-    image_four = models.ImageField(
-        upload_to='uploads/',
-        verbose_name='Изображение4',
-        null=True,
-    )
     date_add = models.DateTimeField(
         auto_now_add=True,
         verbose_name='дата добавления',
+    )
+    image = models.ImageField(
+        verbose_name='картинки',
+        upload_to='uploads/',
     )
 
     def __str__(self):
