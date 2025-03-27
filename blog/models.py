@@ -78,6 +78,10 @@ class Flowers(models.Model):
         verbose_name='картинки',
         upload_to='uploads/',
     )
+    image_two = models.ImageField(
+        verbose_name='вторая картинка',
+        upload_to='uploads/',
+    )
 
     def __str__(self):
         return self.title
@@ -165,5 +169,27 @@ class OrderTime(models.Model):
         verbose_name = 'позиция'
         verbose_name_plural = 'позиции'
 
+
+class Basket(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+    )
+    product = models.ForeignKey(
+        Flowers,
+        on_delete=models.CASCADE,   
+    )
+    stock_basket = models.PositiveIntegerField(
+        default=0,
+    )
+    created_timestamp = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    def __str__(self):
+        return f"Корзина для {self.user} | Товар {self.product}"
+    
+    class Meta:
+        verbose_name = 'корзина'
 
 
