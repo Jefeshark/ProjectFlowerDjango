@@ -8,7 +8,7 @@ urlpatterns = [
     path('', index, name='index'),
     path('admin/', admin.site.urls),
     path('flower/<int:flower_id>/', flower_id, name='flower_detail'),
-    path('login/', login_view, name='login_view'),  
-    path('registration/', reg_view, name='reg_view'),  
+    path('login/', login_view, name='login'),  
+    path('registration/', reg_view, name='registration'),  
     path('logout/', logout, name='logout'),  
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -69,4 +69,4 @@ def login_view(request):
 def logout(request):
     auth_logout(request)
     messages.info(request, 'Вы вышли из системы')
-    return redirect('login_view')
+    return redirect('login')

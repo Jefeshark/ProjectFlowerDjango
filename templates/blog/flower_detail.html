@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ flower.title }} - Custom Blooms</title>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/betmo-cyr" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'blog/css/styles.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -39,6 +40,15 @@
             margin: 0 auto 30px;
             width: 80%;
             border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(255, 110, 199, 0.3);
+        }
+        .navbar {
+            background-color: white !important;
+            box-shadow: 0 2px 10px rgba(255, 159, 223, 0.2);
+        }
+        .nav-link {
+            color: var(--text-color) !important;
+            font-weight: 500;
         }
         .flower-pair {
             display: flex;
@@ -70,9 +80,11 @@
             background-color: var(--main-color);
             border: none;
             font-weight: 600;
+            color: white;
         }
         .btn-custom:hover {
             background-color: var(--hover-color);
+            color: white;
         }
         .horizontal-scroll {
             margin-top: 40px;
@@ -88,20 +100,84 @@
             flex: 0 0 auto;
             width: 200px;
             transition: all 0.3s;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
         }
         .flower-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 159, 223, 0.3);
+        }
+        .navbar-text {
+            color: var(--text-color) !important;
+            font-weight: 500;
+        }
+        .btn-outline-danger {
+            color: #dc3545;
+            border-color: #dc3545;
+        }
+        .btn-outline-danger:hover {
+            background-color: #dc3545;
+            color: white;
+        }
+        .modal-content {
+            border-radius: 12px;
+            overflow: hidden;
+            border: none;
+        }
+        .modal-header {
+            background-color: var(--bg-color);
+            border-bottom: 2px solid var(--main-color);
+        }
+        .modal-title {
+            color: var(--text-color);
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
-    <header class="px-3">
+    <!-- Хедер с логотипом -->
+    <header class="px-3" style="background-color: var(--bg-color);">
         <div class="container text-center">
             <h1 class="m-0 site-title">CUSTOM BLOOMS</h1>
             <div class="header-line"></div>
         </div>
     </header>
 
+    <!-- Навигационная панель -->
+    <nav class="navbar navbar-expand-lg navbar-light mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#" style="color: var(--main-color) !important;">
+                <i class="bi bi-flower1"></i> Цветы
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    {% for category in categories %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-tag"></i> {{ category.title }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                
+                <!-- Блок пользователя -->
+                <div class="ms-auto d-flex align-items-center">
+                    {% if user.is_authenticated %}
+                        <span class="navbar-text me-3">Привет, {{ user.username }}!</span>
+                        <a href="{% url 'logout' %}" class="btn btn-sm btn-outline-danger">Выйти</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-sm btn-custom">Авторизоваться</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Основной контент -->
     <main class="container my-5">
         <div class="row">
             <div class="col-lg-6 mb-4">
@@ -127,9 +203,9 @@
             <div class="col-lg-6">
                 <h1 class="mb-3">{{ flower.title }}</h1>
                 {% if flower.category %}
-                <p class="text-muted">Категория: {{ flower.category.name }}</p>
+                <p class="text-muted">Категория: {{ flower.category.title }}</p>
                 {% endif %}
-                <h3 class="text-primary mb-4">{{ flower.price }} ₽</h3>
+                <h3 class="mb-4" style="color: var(--main-color);">{{ flower.price }} ₽</h3>
                 
                 <div class="card mb-4">
                     <div class="card-body">
@@ -138,7 +214,7 @@
                     </div>
                 </div>
                 
-                <button class="btn btn-custom btn-lg w-100 text-white mb-3 add-to-cart" data-flower-id="{{ flower.id }}">
+                <button class="btn btn-custom btn-lg w-100 mb-3 add-to-cart" data-flower-id="{{ flower.id }}">
                     <i class="bi bi-cart-plus"></i> Добавить в корзину
                 </button>
                 
@@ -169,9 +245,29 @@
         </div>
     </main>
 
-    <footer class="text-white text-center p-4 mt-5" style="background: linear-gradient(45deg, #FF6EC7, #FF9FDF);">
+    <!-- Футер -->
+    <footer class="text-white text-center p-4 mt-5" style="background: linear-gradient(45deg, #FF6EC7, #FF9FDF); box-shadow: 0 -2px 10px rgba(255, 159, 223, 0.3);">
         <p class="m-0">&copy; CUSTOM BLOOMS</p>
     </footer>
+
+    <!-- Модальное окно авторизации -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Требуется авторизация</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Чтобы добавить товар в корзину, пожалуйста, авторизуйтесь.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                    <a href="{% url 'login' %}" class="btn btn-custom">Авторизоваться</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -193,6 +289,16 @@
             
             document.querySelector('.add-to-cart').addEventListener('click', function(e) {
                 e.preventDefault();
+                
+                // Проверяем, авторизован ли пользователь
+                {% if not user.is_authenticated %}
+                    // Показываем модальное окно, если пользователь не авторизован
+                    const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                    loginModal.show();
+                    return;
+                {% endif %}
+                
+                // Если пользователь авторизован, добавляем в корзину
                 const flowerId = this.getAttribute('data-flower-id');
                 const csrftoken = getCookie('csrftoken');
                 
