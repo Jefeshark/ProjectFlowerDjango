@@ -1,35 +1,5 @@
 from django.db import models
-
-class User(models.Model):
-    first_name = models.CharField(
-        verbose_name='имя',
-        max_length=255,
-    )
-    last_name = models.CharField(
-        verbose_name='фамилия',
-        max_length=255,
-    )
-    email = models.EmailField(
-        verbose_name='почта',
-        max_length=255,
-        unique=True,
-    )
-    password = models.CharField(
-        verbose_name='пароль',
-        max_length=255,
-    )
-    address = models.TextField(
-        verbose_name='адрес доставки',
-    )
-
-    def __str__(self):
-        return f"{self.first_name} {self.last_name}"
-    
-
-    class Meta:
-        verbose_name = 'пользователь'
-        verbose_name_plural = 'пользователи'
-
+from django.contrib.auth.models import User
 
 class Category(models.Model):
     title = models.CharField(
@@ -192,6 +162,9 @@ class Basket(models.Model):
 
     
     class Meta:
-        verbose_name = 'корзина'
-
-
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'product'], 
+                name='unique_user_product'
+            ),
+        ]

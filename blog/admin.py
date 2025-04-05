@@ -1,11 +1,6 @@
 from django.contrib import admin
 
-from .models import User, Category, Flowers, Order, OrderTime, Basket
-
-
-@admin.register(User)
-class UserAdmin(admin.ModelAdmin):
-    ...
+from .models import Category, Flowers, Order, OrderTime, Basket
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
